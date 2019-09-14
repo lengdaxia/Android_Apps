@@ -10,6 +10,8 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var diceImage:ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,12 +23,12 @@ class MainActivity : AppCompatActivity() {
             roll_dice()
         }
 
-
+        diceImage = findViewById<ImageView>(R.id.dice_image)
     }
 
     private fun roll_dice(){
 
-        val diceImage = findViewById<ImageView>(R.id.dice_image)
+
         val randomInt = Random().nextInt(6) + 1
 
         val diceImageID = when (randomInt) {
