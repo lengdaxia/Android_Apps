@@ -19,23 +19,42 @@ package com.example.android.navigation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.navigation.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var drawerLayout:DrawerLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         @Suppress("UNUSED_VARIABLE")
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        drawerLayout = binding.drawableLayout
 
         val naviController = this.findNavController(R.id.MyNavHostFragment)
-        NavigationUI.setupActionBarWithNavController(this, naviController)
+        
+        naviController.addOnDestinationChangedListener { nc:NavController,  nd:NavDestination, args: Bundle? ->
+            if (nd.id == nc.graph.startDestination){
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+            }else{
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            }
+        }
+        
+        NavigationUI.setupActionBarWithNavController(this, naviController,drawerLayout)
+
+        NavigationUI.setupWithNavController(binding.navView, naviController)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val naviController = this.findNavController(R.id.MyNavHostFragment)
-        return naviController.navigateUp()
+
+        return NavigationUI.navigateUp(naviController,drawerLayout)
     }
 
 }

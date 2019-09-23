@@ -3,5 +3,6 @@
 
     <item
         android:id="@+id/aboutFragment"
+        android:icon="@drawable/about_android_trivia"
         android:title="@string/about" />
 </menu>
